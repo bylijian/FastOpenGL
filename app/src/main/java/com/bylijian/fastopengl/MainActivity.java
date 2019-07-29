@@ -36,15 +36,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //通知GLSurfaceView Activity onResume(),这个时候GLSurfaceView内部可以恢复绘制
         glSurfaceView.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        //通知GLSurfaceView Activity onPause(),这个时候GLSurfaceView内部可以暂停绘制
         glSurfaceView.onPause();
     }
 
+    //GLSurfaceView 需要使用者实现的Renderer类，使用者在这里加载，使用OpenGL的着色器，绘制需要的图案
     private static class MyRenderer implements GLSurfaceView.Renderer {
 
         private static final String VERTEX_SHADER =
@@ -107,11 +110,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onSurfaceChanged(GL10 unused, int width, int height) {
+            //设定GLView坐标的宽高
             GLES20.glViewport(0, 0, width, height);
         }
 
         @Override
         public void onDrawFrame(GL10 unused) {
+            //绘制一个三角形
             GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
             GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 3);
